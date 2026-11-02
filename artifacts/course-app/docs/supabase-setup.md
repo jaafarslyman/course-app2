@@ -21,4 +21,4 @@ There is no sample course content. Create and publish a course from the admin ar
 
 ## Media-protection limits
 
-Course media is stored privately and delivered through short-lived signed links after the app checks access. The player hides its download control and blocks the context menu, but a regular web browser cannot prevent operating-system screenshots or screen recordings, and these measures cannot guarantee that media will not be copied. Signed links can also be captured while valid. Do not treat the web version as DRM or perfect anti-copy protection.
+Course media is stored privately and delivered through signed links after the app checks access. The player hides download and remote-playback controls, blocks the context menu and common copy/save/print shortcuts, and pauses media when the page is hidden. These are deterrents only: a regular web browser cannot prevent operating-system screenshots or screen recordings, and signed links can still be captured while valid. Do not treat the web version as DRM or perfect anti-copy protection.

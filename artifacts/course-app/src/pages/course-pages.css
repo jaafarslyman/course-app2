@@ -98,8 +98,8 @@
 .learner-material { min-width: 0; padding: 20px; }
 .learner-material-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 17px; }
 .learner-material-header h2 { margin: 4px 0 0; font-size: 1.2rem; }
-.learner-material-body { color: #465b5c; font-size: .97rem; line-height: 2; white-space: pre-wrap; }
-.learner-media-frame { display: grid; min-height: 255px; place-items: center; overflow: hidden; border-radius: 18px; background: #edf3e9; }
+.learner-material-body { color: #465b5c; font-size: .97rem; line-height: 2; white-space: pre-wrap; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.learner-media-frame { display: grid; min-height: 255px; place-items: center; overflow: hidden; border-radius: 18px; background: #edf3e9; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .learner-media-frame video, .learner-media-frame audio { display: block; max-width: 100%; }
 .learner-media-frame video { width: 100%; max-height: min(58vw,520px); background: #243638; }
 .learner-media-frame img { display: block; max-width: 100%; max-height: 65vh; object-fit: contain; }

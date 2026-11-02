@@ -131,6 +131,23 @@ export function LearnerCoursePage() {
   const [selectedId, setSelectedId] = useState('');
   const [savingError, setSavingError] = useState('');
 
+  useEffect(() => {
+    const blockContextMenu = (event: MouseEvent) => event.preventDefault();
+    const blockCopyShortcuts = (event: KeyboardEvent) => {
+      if (!(event.ctrlKey || event.metaKey)) return;
+      if (['c', 'p', 's', 'u'].includes(event.key.toLowerCase())) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', blockContextMenu);
+    window.addEventListener('keydown', blockCopyShortcuts);
+    return () => {
+      document.removeEventListener('contextmenu', blockContextMenu);
+      window.removeEventListener('keydown', blockCopyShortcuts);
+    };
+  }, []);
+
   const courses = useMemo(() => [...(query.data ?? [])].sort((a, b) => a.sortOrder - b.sortOrder), [query.data]);
   const course = courseId ? courses.find((entry) => entry.id === courseId) : courses[0];
   const flatItems = useMemo(() => course ? flattenCourse(course) : [], [course]);
@@ -242,15 +259,20 @@ export function LearnerCoursePage() {
         {flatItems.length === 0 ? (
           <section className="panel"><EmptyState title="المحتوى قيد التجهيز" description="لم تتم إضافة مواد لهذه الدورة بعد. ستظهر هنا بمجرد أن تصبح جاهزة." icon={BookOpen} /></section>
         ) : (
-          <div className="learner-content-layout">
+          <div
+            className="learner-content-layout"
+            onCopy={(event) => event.preventDefault()}
+            onCut={(event) => event.preventDefault()}
+            onDragStart={(event) => event.preventDefault()}
+          >
             <section className="panel learner-material">
               <div className="learner-material-header"><div><div className="eyebrow">{currentFlat?.group} · {selected ? kindLabels[selected.kind] : ''}</div><h2>{selected?.title}</h2></div>{selected?.progress?.completed && <span className="course-status"><Check size={14} /> مكتملة</span>}</div>
               {selected && ['video', 'audio', 'image'].includes(selected.kind) ? (
                 mediaError ? <div className="learner-media-frame"><div className="learner-media-placeholder"><LockKeyhole size={25} /><strong>{mediaError}</strong><button type="button" className="button-soft" onClick={retryMedia}><RefreshCw size={14} /> إعادة المحاولة</button></div></div> :
                 !mediaUrl ? <div className="learner-media-frame"><div className="learner-media-placeholder"><LockKeyhole size={23} /><strong>جارٍ فتح المحتوى بأمان…</strong></div></div> :
                 <div className="learner-media-frame" onContextMenu={(event) => event.preventDefault()}>
-                   {selected.kind === 'video' && <video ref={videoRef} src={mediaUrl} controls controlsList="nodownload" disablePictureInPicture playsInline preload="metadata" onLoadedMetadata={(event) => { const progress = selected.progress?.positionSeconds ?? 0; if (progress > 0) event.currentTarget.currentTime = progress; }} onTimeUpdate={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onPause={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onEnded={(event) => savePosition(event.currentTarget.duration, event.currentTarget.duration, true)} />}
-                  {selected.kind === 'audio' && <audio ref={audioRef} src={mediaUrl} controls controlsList="nodownload" preload="metadata" onLoadedMetadata={(event) => { const progress = selected.progress?.positionSeconds ?? 0; if (progress > 0) event.currentTarget.currentTime = progress; }} onTimeUpdate={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onPause={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onEnded={(event) => savePosition(event.currentTarget.duration, event.currentTarget.duration, true)} />}
+                   {selected.kind === 'video' && <video ref={videoRef} src={mediaUrl} controls controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback playsInline preload="metadata" onLoadedMetadata={(event) => { const progress = selected.progress?.positionSeconds ?? 0; if (progress > 0) event.currentTarget.currentTime = progress; }} onTimeUpdate={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onPause={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onEnded={(event) => savePosition(event.currentTarget.duration, event.currentTarget.duration, true)} />}
+                  {selected.kind === 'audio' && <audio ref={audioRef} src={mediaUrl} controls controlsList="nodownload noremoteplayback" preload="metadata" onLoadedMetadata={(event) => { const progress = selected.progress?.positionSeconds ?? 0; if (progress > 0) event.currentTarget.currentTime = progress; }} onTimeUpdate={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onPause={(event) => savePosition(event.currentTarget.currentTime, Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : null)} onEnded={(event) => savePosition(event.currentTarget.duration, event.currentTarget.duration, true)} />}
                   {selected.kind === 'image' && <img src={mediaUrl} alt={selected.title} draggable={false} />}
                 </div>
               ) : <div className="learner-material-body">{selected?.body || 'ابدأ بالقراءة بهدوء، ثم علّم المادة مكتملة عندما تنتهي.'}</div>}

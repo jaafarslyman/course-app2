@@ -549,6 +549,17 @@ function ContentDialog({
         onFailure('تعذّر استبدال الملف السابق. أعد المحاولة.');
         return;
       }
+      setFileMeta(item ? {
+        storagePath: item.storagePath,
+        mimeType: item.mimeType,
+        fileSizeBytes: item.fileSizeBytes,
+        durationSeconds: item.durationSeconds,
+      } : {
+        storagePath: null,
+        mimeType: null,
+        fileSizeBytes: null,
+        durationSeconds: null,
+      });
     }
     const controller = new AbortController();
     uploadControllerRef.current = controller;
