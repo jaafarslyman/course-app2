@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "English Course"
+description = "An Arabic-first English learning platform where administrators manage courses and learners, and students study lessons, save progress, and join a course community."
+version = "1.0.0"
+id = "artifacts/course-app"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20216
+
+[services.development]
+run = "pnpm --filter @workspace/course-app run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/course-app", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/course-app/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20216"
+BASE_PATH = "/"

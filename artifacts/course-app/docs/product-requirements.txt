@@ -1,0 +1,62 @@
+We are building a mobile app (for development it will be a web app, the last step is turning it into an APK) for an English course.
+
+I will provide all the required features to keep them in mind, save them as .txt files in the project's code for other developers to know what we are doing, here are the requirements: 
+1) courses:
+Pre uploaded course.
+One course, inside it different levels and sections, inside each level or section there will be the content, it's either long videos (15~30 minutes), images, or voice notes.
+
+Crucial: the app shouldn't allow screenshots, screen recordings, downloading the content.
+
+The app should display for the user his progress in each course, level and section, even how much he viewed from each video, just like YouTube.
+
+Once th user finishes a video or content type, it's marked as done.
+
+The user can view any content type without finishing tge previous ones.
+
+2) interactive space:
+Basically, a text app just like telegram.
+
+The admin can send any type of content, including text messages, voice notes, images and videos.
+
+The users can also send back and respond normally, the catch is there are no seperate chats or private chats, this interactive space will be like a group chat.
+
+The admin can turn messaging on and off via a toggle normally, when off he can only send.
+
+3) security: this must be discussed:
+This course is paid and the payments aren't online, so the admin wants to recive the money manually first, them when he verifies it he wants to give access to the course, the catch is we don't want access to the course to be shared, we though of a code, a one time useage code so when someone buys the course, the admin gives him the one time usage random generated code, tge user enters the code and he is in the app, there os no credentials for user accounts so there is no sign in sign out, each user is linked to his one time usage code, and he can't get out of the app (log out) unless the admin logs him out.
+
+4) scale: this app will be developed as a web app (mobile first), but once it's complete the code will be tured into an apk file for everyone to use.
+
+5) admin pannel: a hidden spot, maybe a seperate app, the admin can manage the users, generate the random one time usage access codes, upload media, add courses and add inside the courses sections abd levels and upload the content etc, the admin of course can message on the interactive space.
+
+6) additionals: this app will use supabase for all the storage, and will be built on replit.
+The app will be in arabic.
+
+7) Design Direction: Playful Modern EdTech UI
+
+Create a premium, mobile-first English-learning application with a playful, vibrant, and welcoming visual identity.
+
+Use:
+
+- Bright, joyful colors with a carefully balanced palette.
+- Soft, rounded UI elements, bubble-shaped cards, and pill-shaped buttons.
+- Organic shapes and smooth curves instead of sharp corners.
+- Beautiful typography with clear visual hierarchy.
+- Smooth transitions and delightful micro-interactions.
+- Colorful course cards, engaging progress indicators, and visually rewarding completion states.
+- Generous spacing and a clean, polished interface.
+
+The overall aesthetic should feel like a premium, modern language-learning app: joyful and engaging without looking childish, cluttered, or generic.
+
+Prioritize mobile-first design, visual consistency, accessibility, and a beautiful user experience across both Android APK and mobile web.
+
+For now, build the structure, so build all the pages as blank pages, don't build any funcnalities or processes for now.
+
+Start with building the admin pannel, it should be protected by an email and password supabase authentication, i will manually add a user inside supabase so using the added user's credentials the admin can access the admin pannel.
+
+The user side app should also be protected by a page that asks the following:
+Once the app is opened this is the page that shows up, it first asks for the user's email address (added by the admin, when the admin is authorizing a new user, he enters the user's name and email address then he generates the one time usage access token), the user inlits his email, clicks next, then he is prompted to enter the access code, if the code is right he gets acess FOREVER, the code is one time usage it gets expired after the user enters it successfully and enters the app, there is nothing that can auto log out the user unless the admin manually does it.
+
+The app should be bright, white or off-white backgrounds joyful colors.
+
+For now nothing should really work we are just building the structure.

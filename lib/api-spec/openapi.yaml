@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: courseMedia
+    description: Protected course media delivery
 paths:
   /healthz:
     get:
@@ -24,7 +26,62 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /course-media/signed-url:
+    post:
+      operationId: createCourseMediaSignedUrl
+      tags: [courseMedia]
+      summary: Create a short-lived URL for authorized course media
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CourseMediaSignedUrlInput"
+      responses:
+        "200":
+          description: Short-lived media URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CourseMediaSignedUrl"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Session is not permitted to view the requested media
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Invalid bearer session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Media signing failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Media signing is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     HealthStatus:
       type: object
@@ -33,4 +90,35 @@ components:
           type: string
       required:
         - status
+    CourseMediaSignedUrlInput:
+      type: object
+      properties:
+        contentId:
+          type: string
+          format: uuid
+        learnerSessionSecret:
+          type: ["string", "null"]
+          minLength: 43
+          maxLength: 43
+      required:
+        - contentId
+    CourseMediaSignedUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+        expiresIn:
+          type: integer
+          minimum: 1
+      required:
+        - signedUrl
+        - expiresIn
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 
