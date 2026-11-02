@@ -1,6 +1,7 @@
-import { BookOpen, LibraryBig, MessagesSquare } from 'lucide-react';
+import { BookOpen, LibraryBig } from 'lucide-react';
 import { AppShell, EmptyState, PageHeading } from '@/components/app-shell';
 import { useLearnerSession } from '@/lib/learner-session-context';
+import { GroupChatPage } from '@/pages/group-chat';
 
 export function LearnerHomePage() {
   const { learner } = useLearnerSession();
@@ -57,22 +58,7 @@ export function LearnerCoursePage() {
 }
 
 export function LearnerCommunityPage() {
-  return (
-    <AppShell title="مساحة المجموعة" audience="learner">
-      <PageHeading
-        eyebrow="نتعلّم معًا"
-        title="مجتمع المتعلمين"
-        subtitle="ستظهر رسائل المجموعة هنا بعد تفعيل مساحة التواصل."
-      />
-      <section className="panel">
-        <EmptyState
-          title="لا توجد مشاركات بعد"
-          description="لا توجد رسائل أو مشاركات تجريبية."
-          icon={MessagesSquare}
-        />
-      </section>
-    </AppShell>
-  );
+  return <GroupChatPage audience="learner" />;
 }
 
 export function LearnerContentPage() {

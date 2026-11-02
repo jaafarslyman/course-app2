@@ -39,3 +39,54 @@ export const CreateCourseMediaSignedUrlResponse = zod.object({
 })
 
 
+/**
+ * @summary Create a scoped upload URL for an authorized chat participant
+ */
+export const createChatMediaUploadUrlBodyContentTypeMin = 3;
+export const createChatMediaUploadUrlBodyContentTypeMax = 100;
+
+export const createChatMediaUploadUrlBodyFileSizeBytesMax = 52428800;
+
+export const createChatMediaUploadUrlBodyLearnerSessionSecretMin = 43;
+export const createChatMediaUploadUrlBodyLearnerSessionSecretMax = 43;
+
+
+
+export const CreateChatMediaUploadUrlBody = zod.object({
+  "contentType": zod.string().min(createChatMediaUploadUrlBodyContentTypeMin).max(createChatMediaUploadUrlBodyContentTypeMax),
+  "fileSizeBytes": zod.number().int().min(1).max(createChatMediaUploadUrlBodyFileSizeBytesMax),
+  "learnerSessionSecret": zod.string().min(createChatMediaUploadUrlBodyLearnerSessionSecretMin).max(createChatMediaUploadUrlBodyLearnerSessionSecretMax).nullish()
+})
+
+export const createChatMediaUploadUrlResponseStoragePathMax = 255;
+
+
+
+export const CreateChatMediaUploadUrlResponse = zod.object({
+  "signedUrl": zod.string().url(),
+  "storagePath": zod.string().min(1).max(createChatMediaUploadUrlResponseStoragePathMax)
+})
+
+
+/**
+ * @summary Create a short-lived URL for authorized chat media
+ */
+export const createChatMediaSignedUrlBodyLearnerSessionSecretMin = 43;
+export const createChatMediaSignedUrlBodyLearnerSessionSecretMax = 43;
+
+
+
+export const CreateChatMediaSignedUrlBody = zod.object({
+  "messageId": zod.string().uuid(),
+  "learnerSessionSecret": zod.string().min(createChatMediaSignedUrlBodyLearnerSessionSecretMin).max(createChatMediaSignedUrlBodyLearnerSessionSecretMax).nullish()
+})
+
+
+
+
+export const CreateChatMediaSignedUrlResponse = zod.object({
+  "signedUrl": zod.string().url(),
+  "expiresIn": zod.number().int().min(1)
+})
+
+

@@ -25,6 +25,50 @@ export interface CourseMediaSignedUrl {
   expiresIn: number;
 }
 
+export interface ChatMediaUploadUrlInput {
+  /**
+     * @minLength 3
+     * @maxLength 100
+     */
+  contentType: string;
+  /**
+     * @minimum 1
+     * @maximum 52428800
+     */
+  fileSizeBytes: number;
+  /**
+     * @minLength 43
+     * @maxLength 43
+     * @nullable
+     */
+  learnerSessionSecret?: string | null;
+}
+
+export interface ChatMediaUploadUrl {
+  signedUrl: string;
+  /**
+     * @minLength 1
+     * @maxLength 255
+     */
+  storagePath: string;
+}
+
+export interface ChatMediaSignedUrlInput {
+  messageId: string;
+  /**
+     * @minLength 43
+     * @maxLength 43
+     * @nullable
+     */
+  learnerSessionSecret?: string | null;
+}
+
+export interface ChatMediaSignedUrl {
+  signedUrl: string;
+  /** @minimum 1 */
+  expiresIn: number;
+}
+
 export interface ApiError {
   error: string;
 }

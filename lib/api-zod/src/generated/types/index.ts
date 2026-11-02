@@ -7,6 +7,10 @@
  */
 
 export * from './apiError';
+export * from './chatMediaSignedUrl';
+export * from './chatMediaSignedUrlInput';
+export * from './chatMediaUploadUrl';
+export * from './chatMediaUploadUrlInput';
 export * from './courseMediaSignedUrl';
 export * from './courseMediaSignedUrlInput';
 export * from './healthStatus';

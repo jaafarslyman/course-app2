@@ -15,10 +15,11 @@ The two `VITE_` values are included in the browser bundle and must not contain s
 1. Create the administrator account in Supabase Authentication using the email and password you want to use.
 2. In `supabase/schema.sql`, replace `YOUR_ADMIN_EMAIL_HERE` with that exact email address. Run the entire file in the Supabase SQL Editor. The final block registers the existing Auth account as a course administrator.
 3. Run the entire `supabase/courses.sql` file in the SQL Editor. It creates the course tables, RPCs, private `course-media` bucket, and storage policies.
-4. Restart the app and API server after adding the environment variables. Sign in at `/admin/sign-in`; learners start at `/`.
+4. Run the entire `supabase/chat.sql` file in the SQL Editor. It creates one shared group chat and the private `chat-media` bucket. Learner messaging starts enabled; chat attachments are limited to 50 MB per file.
+5. Restart the app and API server after adding the environment variables. Sign in at `/admin/sign-in`; learners start at `/`.
 
 There is no sample course content. Create and publish a course from the admin area after setup.
 
 ## Media-protection limits
 
-Course media is stored privately and delivered through signed links after the app checks access. The player hides download and remote-playback controls, blocks the context menu and common copy/save/print shortcuts, and pauses media when the page is hidden. These are deterrents only: a regular web browser cannot prevent operating-system screenshots or screen recordings, and signed links can still be captured while valid. Do not treat the web version as DRM or perfect anti-copy protection.
+Course and chat media are stored privately and delivered through signed links after the app checks access. The course player hides download and remote-playback controls, blocks the context menu and common copy/save/print shortcuts, and pauses media when the page is hidden. Chat media hides download and remote-playback controls and blocks its context menu. These are deterrents only: a regular web browser cannot prevent operating-system screenshots or screen recordings, and signed links can still be captured while valid. Do not treat the web version as DRM or perfect anti-copy protection.

@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: courseMedia
     description: Protected course media delivery
+  - name: chatMedia
+    description: Protected group chat media upload and delivery
 paths:
   /healthz:
     get:
@@ -77,6 +79,96 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /chat-media/upload-url:
+    post:
+      operationId: createChatMediaUploadUrl
+      tags: [chatMedia]
+      summary: Create a scoped upload URL for an authorized chat participant
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMediaUploadUrlInput"
+      responses:
+        "200":
+          description: Scoped upload URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMediaUploadUrl"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Messaging is disabled or the participant is not authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Media storage is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Upload URL creation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /chat-media/signed-url:
+    post:
+      operationId: createChatMediaSignedUrl
+      tags: [chatMedia]
+      summary: Create a short-lived URL for authorized chat media
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMediaSignedUrlInput"
+      responses:
+        "200":
+          description: Short-lived media URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMediaSignedUrl"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Participant is not authorized to view this media
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Media storage is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Media signing failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   securitySchemes:
     bearerAuth:
@@ -103,6 +195,61 @@ components:
       required:
         - contentId
     CourseMediaSignedUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+        expiresIn:
+          type: integer
+          minimum: 1
+      required:
+        - signedUrl
+        - expiresIn
+    ChatMediaUploadUrlInput:
+      type: object
+      properties:
+        contentType:
+          type: string
+          minLength: 3
+          maxLength: 100
+        fileSizeBytes:
+          type: integer
+          minimum: 1
+          maximum: 52428800
+        learnerSessionSecret:
+          type: ["string", "null"]
+          minLength: 43
+          maxLength: 43
+      required:
+        - contentType
+        - fileSizeBytes
+    ChatMediaUploadUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+        storagePath:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+        - signedUrl
+        - storagePath
+    ChatMediaSignedUrlInput:
+      type: object
+      properties:
+        messageId:
+          type: string
+          format: uuid
+        learnerSessionSecret:
+          type: ["string", "null"]
+          minLength: 43
+          maxLength: 43
+      required:
+        - messageId
+    ChatMediaSignedUrl:
       type: object
       properties:
         signedUrl:

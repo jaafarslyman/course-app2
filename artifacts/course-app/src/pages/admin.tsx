@@ -13,7 +13,6 @@ import {
   KeyRound,
   LibraryBig,
   LogIn,
-  MessagesSquare,
   Plus,
   RefreshCw,
   Search,
@@ -34,6 +33,7 @@ import {
 } from '@/components/app-shell';
 import { createAccessCode } from '@/lib/learner-session';
 import { callRpc } from '@/lib/supabase';
+import { GroupChatPage } from '@/pages/group-chat';
 
 export type LearnerRecord = {
   id: string;
@@ -743,20 +743,5 @@ export function AdminContentPage() {
 }
 
 export function AdminCommunityPage() {
-  return (
-    <AppShell title="مساحة المجموعة">
-      <PageHeading
-        eyebrow="تواصل المتعلمين"
-        title="مساحة المجموعة"
-        subtitle="ستظهر الرسائل وحالة النشر عند بناء ميزات المجموعة."
-      />
-      <section className="panel">
-        <EmptyState
-          title="لا توجد رسائل بعد"
-          description="لا توجد رسائل تجريبية أو محادثات محفوظة."
-          icon={MessagesSquare}
-        />
-      </section>
-    </AppShell>
-  );
+  return <GroupChatPage audience="admin" />;
 }

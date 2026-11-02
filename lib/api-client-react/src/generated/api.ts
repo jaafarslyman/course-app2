@@ -26,6 +26,10 @@ import type {
 
 import type {
   ApiError,
+  ChatMediaSignedUrl,
+  ChatMediaSignedUrlInput,
+  ChatMediaUploadUrl,
+  ChatMediaUploadUrlInput,
   CourseMediaSignedUrl,
   CourseMediaSignedUrlInput,
   HealthStatus
@@ -246,5 +250,181 @@ export const useCreateCourseMediaSignedUrl = <TError = ErrorType<ApiError>,
         TContext
       > => {
       return useMutation(getCreateCourseMediaSignedUrlMutationOptions(options), queryClient);
+    }
+
+export const getCreateChatMediaUploadUrlUrl = () => {
+
+
+
+
+  return `/api/chat-media/upload-url`
+}
+
+/**
+ * @summary Create a scoped upload URL for an authorized chat participant
+ */
+export const createChatMediaUploadUrl = async (chatMediaUploadUrlInput: ChatMediaUploadUrlInput, options?: Parameters<typeof customFetch>[1]): Promise<ChatMediaUploadUrl> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ChatMediaUploadUrl>(getCreateChatMediaUploadUrlUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(chatMediaUploadUrlInput)
+  }
+);}
+
+
+
+
+
+export const getCreateChatMediaUploadUrlMutationKey = () => ['createChatMediaUploadUrl'] as const;
+
+export const getCreateChatMediaUploadUrlMutationOptions = <TError = ErrorType<ApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatMediaUploadUrl>>, TError,CreateChatMediaUploadUrlMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createChatMediaUploadUrl>>, TError,CreateChatMediaUploadUrlMutationVariables, TContext> => {
+
+const mutationKey = getCreateChatMediaUploadUrlMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createChatMediaUploadUrl>>, CreateChatMediaUploadUrlMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createChatMediaUploadUrl(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateChatMediaUploadUrlMutationResult = NonNullable<Awaited<ReturnType<typeof createChatMediaUploadUrl>>>
+    export type CreateChatMediaUploadUrlMutationBody = BodyType<ChatMediaUploadUrlInput>
+    export type CreateChatMediaUploadUrlMutationError = ErrorType<ApiError>
+    export type CreateChatMediaUploadUrlMutationVariables = {data: BodyType<ChatMediaUploadUrlInput>}
+
+    /**
+ * @summary Create a scoped upload URL for an authorized chat participant
+ */
+export const useCreateChatMediaUploadUrl = <TError = ErrorType<ApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatMediaUploadUrl>>, TError,CreateChatMediaUploadUrlMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createChatMediaUploadUrl>>,
+        TError,
+        CreateChatMediaUploadUrlMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateChatMediaUploadUrlMutationOptions(options), queryClient);
+    }
+
+export const getCreateChatMediaSignedUrlUrl = () => {
+
+
+
+
+  return `/api/chat-media/signed-url`
+}
+
+/**
+ * @summary Create a short-lived URL for authorized chat media
+ */
+export const createChatMediaSignedUrl = async (chatMediaSignedUrlInput: ChatMediaSignedUrlInput, options?: Parameters<typeof customFetch>[1]): Promise<ChatMediaSignedUrl> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ChatMediaSignedUrl>(getCreateChatMediaSignedUrlUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(chatMediaSignedUrlInput)
+  }
+);}
+
+
+
+
+
+export const getCreateChatMediaSignedUrlMutationKey = () => ['createChatMediaSignedUrl'] as const;
+
+export const getCreateChatMediaSignedUrlMutationOptions = <TError = ErrorType<ApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatMediaSignedUrl>>, TError,CreateChatMediaSignedUrlMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createChatMediaSignedUrl>>, TError,CreateChatMediaSignedUrlMutationVariables, TContext> => {
+
+const mutationKey = getCreateChatMediaSignedUrlMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createChatMediaSignedUrl>>, CreateChatMediaSignedUrlMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createChatMediaSignedUrl(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateChatMediaSignedUrlMutationResult = NonNullable<Awaited<ReturnType<typeof createChatMediaSignedUrl>>>
+    export type CreateChatMediaSignedUrlMutationBody = BodyType<ChatMediaSignedUrlInput>
+    export type CreateChatMediaSignedUrlMutationError = ErrorType<ApiError>
+    export type CreateChatMediaSignedUrlMutationVariables = {data: BodyType<ChatMediaSignedUrlInput>}
+
+    /**
+ * @summary Create a short-lived URL for authorized chat media
+ */
+export const useCreateChatMediaSignedUrl = <TError = ErrorType<ApiError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createChatMediaSignedUrl>>, TError,CreateChatMediaSignedUrlMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createChatMediaSignedUrl>>,
+        TError,
+        CreateChatMediaSignedUrlMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateChatMediaSignedUrlMutationOptions(options), queryClient);
     }
 
